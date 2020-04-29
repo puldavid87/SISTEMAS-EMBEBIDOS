@@ -14,7 +14,7 @@
  */
 #define led1 8  // uso de #define que no su puede alterar su valor
 int led2=9;    // variable normal, no recomendable
-const int led3=10 //variable constante, recomendable
+const int led3=10; //variable constante, recomendable
 void setup() {
 pinMode(led1,OUTPUT); // pin8 declarado como salida
 pinMode(led2,OUTPUT); // pin9 declarado como salida
