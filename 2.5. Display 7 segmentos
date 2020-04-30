@@ -6,10 +6,10 @@
  * Funciones : Puertos salida
  */
 
- const int A= 8;
- const int B= 9;
- const int C=10;
- const int D=11;
+ const int A= 8; // pin 8 conectado a decodificador 
+ const int B= 9; // pin 9 conectado a decodificador
+ const int C=10; // pin 10 conectado a decodificador
+ const int D=11; // pin 11 conectado a decodificador
 
  int cont; //varaible de conteo a observar
 
