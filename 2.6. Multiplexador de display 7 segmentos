@@ -26,7 +26,7 @@ void setup(){
   pinMode(D,OUTPUT); // pin11 declarado como salida
   pinMode(dis1,OUTPUT); // pin11 declarado como salida
   pinMode(dis2,OUTPUT); // pin11 declarado como salida
-  pinMode(boton,INPUT); // pin11 declarado como salida
+  pinMode(boton,INPUT); // pin11 declarado como entrada
 }
 
 void loop(){
