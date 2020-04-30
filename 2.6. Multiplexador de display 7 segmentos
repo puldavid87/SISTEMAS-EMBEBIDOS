@@ -17,7 +17,7 @@
  int dec=0;
  
 
- int cont=0; //varaible de conteo a observar
+ int cont=0; //variable de conteo a observar
 
 void setup(){
   pinMode(A,OUTPUT); // pin8 declarado como salida
