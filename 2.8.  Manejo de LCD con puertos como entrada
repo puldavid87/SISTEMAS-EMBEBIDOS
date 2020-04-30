@@ -1,0 +1,35 @@
+/*
+ * CAPÍTULO II: PUERTOS DIGITALES
+ * CÓDIGO 8: Manejo de LCD y puertos entrada
+ * Objetivo: Contador de un pulsador visualizado en la LCD
+ * Funciones : librería LiquidCrystial.h
+ *             LiquidCrystal ( )       Inicializa la interfaz de la pantalla LCD
+ *             begin(columnas, filas)  Configura uso de LCD
+ *             print(data)             Imprime texto en la LCD   
+ *             setCursor(columa, fila) Posiciona el cursos en la LCD
+ */
+
+ #include <LiquidCrystal.h> // Librería LCD
+
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8);  // selección de pines para LCD
+
+const int boton=7; //pin 7 configurado como entrada
+int cont=0;              //variable de conteo a observar
+void setup() {
+  lcd.begin(16, 2);     // inicializa la LCD
+  pinMode(boton,INPUT); // pin11 declarado como entrada
+ lcd.setCursor(0,0);    //posición en la LCD
+ lcd.print("CONT:");    //imprime texto en LCD
+ lcd.setCursor(5,0);    //posición en la LCD
+ lcd.print(cont);       //imprime variable en LCD
+}
+
+void loop() {
+  
+  if(digitalRead(boton)==HIGH){    // condición que active el sw en alto
+      delay(200);                  // delay anti-rebotes
+      lcd.setCursor(5,0);         //posición en la LCD
+      cont++;                     //contador de variable
+      lcd.print(cont);            //imprime variable en LCD
+  }    
+}
