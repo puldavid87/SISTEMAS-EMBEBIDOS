@@ -16,19 +16,27 @@
 
 char vector [6]={'A','r','d','i','n','o'}; // vector para ser enviado
 int i; // contador de ciclo for
+char dato; // variable de recepeción de datos tipo caracter
 void setup (){
   Serial.begin(9600);  //habilitar comunicación serial
   Serial.println("INICIO");  //mensaje de inicio
 }
 
 void loop(){
-  for(i=0;i<6;i++){ // ciclo de recorrido de vector
-    Serial.print(vector[i]); // imprime posición i del vector 
-    delay(200); // tiempo de espera
-  }
-  Serial.println(" "); // mensaje en blanco
-  for(i=0;i<10;i++){ // contador de 0 a 9
-     Serial.println(String("Contador:")+String(i)); // unión de mensaje con variable
-     delay(200); //tiempo de espera
+  if(Serial.available()>0){ //Revisa si existen mensajes en el registro de comunicación serial
+    dato=Serial.read(); // En caso de tener mensajes, lo almacena en la variable llamada dato
+   }
+  if(dato=='A'){ // si el dato es la letra A, ejecuta lo siguiente:
+    for(i=0;i<6;i++){ // ciclo de recorrido de vector
+      Serial.print(vector[i]); // imprime posición i del vector 
+      delay(200); // tiempo de espera
     }
+  }
+  if(dato=='B'){ // si el dato es la letra B, ejecuta lo siguiente:
+    Serial.println(" "); // mensaje en blanco
+    for(i=0;i<10;i++){ // contador de 0 a 9
+       Serial.println(String("Contador:")+String(i)); // unión de mensaje con variable
+      delay(200); //tiempo de espera
+    }
+  }  
 }
