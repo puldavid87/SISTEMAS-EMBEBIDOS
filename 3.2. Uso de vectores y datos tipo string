@@ -1,1 +1,85 @@
 
+/* 
+ *  
+ * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN
+ * CÓDIGO 10: Uso de vectores y datos tipo string     
+ * OBJETIVO: Codificador de vocales de 3 bits 
+ * Funciones de programación:           
+ *           Serial.being(velocidad) 
+ *                       velocidad-> 9600
+ *                                   19200
+ *                                   38400
+ *                                   57600
+ *                                   
+ * String stringOne = "Hello String";                    // Constante como String
+ * String stringOne = String('a');                       // Convertir un dato de tipo char en String
+ * String stringTwo = String("This is a string");        // Convertir dos constantes en String
+ * String stringOne = String(stringTwo + " with more");  // Concatenar dos Strings
+ * String stringOne = String(13);                        // Convertir una constante de tipo int en String                   
+ * String.length()-> tamaño del dato tipos string
+ * dato.toCharArray(vector,tam) -> convierte a cadena de tipo String
+ */
+
+/*
+ * Codificación : a=001, e=010, i=011, o=100 y u=101;
+ */
+
+String dato; //variable de recepción de datos de tipo string
+int tam;  // variable para almacenar el tamaño del dato
+int i=0; // variable de recorrido
+String salida; // mensaje de salida de vocales codificadas
+int j=0; /// variable de confirmación de vocales
+void setup(){
+  Serial.begin(9600);
+} 
+
+void loop(){
+  
+if(Serial.available()>0){ // Revisa si existen datos a ser leídos
+  dato=Serial.readString();
+  dato.toLowerCase(); //convierte que todos los datos ingresados sean minúsculas
+   tam=dato.length()+1; //conocer el tamaño del dato tipo String
+   //se crea vector que separará a las vocales ingresadas por comunicación serial
+   char vector [tam]; 
+   dato.toCharArray(vector,tam);// almacena cada caracter en una posición del vector
+   //valida que todas los caracteres sean vocales
+   for(i=0;i<tam-1;i++){ //recorre las posiciones del vector
+    //valida si las letras ingresadas son todas vocales
+      if(vector[i]=='a'||vector[i]=='e'||vector[i]=='i'||vector[i]=='o'||vector[i]=='u')
+      Serial.print(' '); 
+       else
+       j++; //cuente los errores de ingreso
+    }
+    Serial.println(j); // muestra cuantas letras no fueron vocales
+    if(j>0){ // mensaje de error
+         Serial.println("Error.!");
+     }
+     else{
+         Serial.println("Validado.!");
+         //recorre vector de tipo Char
+         for(i=0;i<tam-1;i++){
+         //codifica por vocal en cada posición y devuelve variable tipo string
+            switch (vector[i]){
+               case 'a':
+               salida=salida+"001";
+               break;
+               case 'e':
+               salida=salida+"010"; //concatena mensaje
+               break;
+               case 'i':
+               salida=salida+"011"; //concatena mensaje
+               break;
+               case 'o':
+               salida=salida+"100"; //concatena mensaje
+               break;
+               case 'u':
+               salida=salida+"101"; //concatena mensaje
+               break;
+              }
+          }
+      }
+      j=0; //reinicia contador
+      Serial.println(salida); //enviame mensaje de vocales condificadas
+      salida=""; //borra los datos almacenados
+  }  
+}
