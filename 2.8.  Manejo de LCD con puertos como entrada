@@ -8,28 +8,33 @@
  *             print(data)             Imprime texto en la LCD   
  *             setCursor(columa, fila) Posiciona el cursos en la LCD
  */
+#include<LiquidCrystal.h> 
 
- #include <LiquidCrystal.h> // Librería LCD
+LiquidCrystal lcd(13,12,11,10,9,8); // inicia lcd
 
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8);  // selección de pines para LCD
-
-const int boton=7; //pin 7 configurado como entrada
-int cont=0;              //variable de conteo a observar
+const int btn=7; // variable para pin como salida
+int cont=0; //variable de conteo
 void setup() {
-  lcd.begin(16, 2);     // inicializa la LCD
-  pinMode(boton,INPUT); // pin11 declarado como entrada
- lcd.setCursor(0,0);    //posición en la LCD
- lcd.print("CONT:");    //imprime texto en LCD
- lcd.setCursor(5,0);    //posición en la LCD
- lcd.print(cont);       //imprime variable en LCD
+ lcd.begin(16,2); //inicia lcd con filas y columnas a emplear
+ pinMode(btn,INPUT); // define pin 7 como entrada
+ lcd.setCursor(0,0);  // ubicación en lcd
+ lcd.print("ARDUINO"); // imprime palabra
+ lcd.setCursor(0,1);  //ubicación lcd
+ lcd.print("CONT:"); // imprime palabra
 }
 
 void loop() {
-  
-  if(digitalRead(boton)==HIGH){    // condición que active el sw en alto
-      delay(200);                  // delay anti-rebotes
-      lcd.setCursor(5,0);         //posición en la LCD
-      cont++;                     //contador de variable
-      lcd.print(cont);            //imprime variable en LCD
-  }    
+  if(digitalRead(btn)==LOW){  // condición de presionar botón
+      delay(250); // delay antirebotes
+      if(cont<20){ // condición de contador
+        cont++; // incremento de variable
+        lcd.setCursor(7,1); // ubicación en lcd
+        lcd.print(cont); // imprime variable
+      }
+      else{
+          lcd.setCursor(6,1); // ubicación en lcd
+          lcd.print("    ");  // imprime mensaje en blanco (borrar)
+          cont=0; // reinicia contador
+        }
+    }
 }
