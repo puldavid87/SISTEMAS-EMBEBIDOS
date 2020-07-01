@@ -1,4 +1,4 @@
-        Wire.requestFrom(address,nBytes);  //solicita un numero de bytes al esclavo en la dirección address
+
 ///////////////////////////////MASTER///////////////////////////////////////////
 #include <Wire.h>
   
