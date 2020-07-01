@@ -1,1 +1,88 @@
 
+///////////////////////////MASTER//////////////////////
+/*
+ * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN I2C
+ * CÓDIGO 13: Envío y recepción de datos complejos por cx i2c
+ * OBJETIVO: El usuario envía caracteres por comunicación serial, el máster lo recibe
+ *            y envía por i2c hacia el esclavo y según el dato enviado enviende un diferente led
+ * FUNCIONES: 
+ *           Wire.begin()
+ *           Wire.beginTransmission(address) -> ID de esclavo
+ *           
+ */
+#include<Wire.h>  // librería i2c
+char dato;  // variable de almancenamiento de datos
+void setup() {
+  Wire.begin(); //inicia cx i2c
+  Serial.begin(9600); // inicia cx serial
+}
+
+void loop() {
+    if(Serial.available()>0){ //verifica el puerto de cx
+        dato=Serial.read(); // almacena el dato en variable
+        Wire.beginTransmission(4); // empieza cx i2c
+        Wire.write(dato); // envía dato
+        Wire.endTransmission(); // termina cx i2c
+      }
+}
+
+
+////////////////////////////////ESCLAVO/////////////////////////////
+/*
+ * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN I2C
+ * CÓDIGO 13: Envío y recepción de datos por cx i2c
+ * OBJETIVO: El usuario envía caracteres por comunicación serial, el máster lo recibe
+ *            y envía por i2c hacia el esclavo y según el dato enviado enviende un diferente led
+ * FUNCIONES: 
+ *           Wire.begin()
+ *           Wire.beginTransmission(address) -> ID de esclavo
+ */
+
+#include <Wire.h> //librería i2c
+char dato; // variable de almacenamiento de dato de cx i2c
+const int led1=8; // led1 en pin8
+const int led2=9; // led1 en pin9
+const int led3=10; // led1 en pin10
+void setup() {
+  Wire.begin(4); // id de esclavo
+  Wire.onReceive(receiveEvent); // evento de recepción
+  Serial.begin(9600); // inicio de cx serial
+  pinMode(led1,OUTPUT); // pin8 como salida
+  pinMode(led2,OUTPUT); // pin9 como salida
+  pinMode(led3,OUTPUT); // pin10 como salida
+}
+void loop() {
+  
+}
+void receiveEvent (int bytes){
+  while(Wire.available()){
+    dato=Wire.read();
+      switch(dato){
+          case 'A':
+            digitalWrite(led1,HIGH);
+            digitalWrite(led2,LOW);
+            digitalWrite(led3,LOW);
+          break;
+          case 'B':
+            digitalWrite(led1,LOW);
+            digitalWrite(led2,HIGH);
+            digitalWrite(led3,LOW);
+          break;
+          case 'C':
+            digitalWrite(led1,LOW);
+            digitalWrite(led2,LOW);
+            digitalWrite(led3,HIGH);
+          break;
+          default:
+            digitalWrite(led1,LOW);
+            digitalWrite(led2,LOW);
+            digitalWrite(led3,LOW);
+          break;
+        }
+    }
+}
+
+
+
+
+
