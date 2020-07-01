@@ -1,18 +1,23 @@
+        Wire.requestFrom(address,nBytes);  //solicita un numero de bytes al esclavo en la dirección address
+///////////////////////////////MASTER///////////////////////////////////////////
+#include <Wire.h>
+  
 /* 
  *  
  * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN
  * CÓDIGO 12: Recepción y envío de mensajes por comunicación I2C   
  * OBJETIVO: Enviar mensajes desde un master hacia un esclavo
- *  Funciones:   Wire.begin()  // Inicializa el hardware del bus
+ *  Funciones:   Wire.begin()  // Inicializa el hardware del bus
  *               Wire.beginTransmission(address); //Comienza la transmisión
  *               Wire.endTransmission(); // Finaliza la transmisión
- *               Wire.requestFrom(address,nBytes);  //solicita un numero de bytes al esclavo en la dirección address
+ *               Wire.requestFrom(address,nBytes);  //solicita un numero de bytes al esclavo en la dirección address
 */
 ///////////////////////////////MASTER///////////////////////////////////////////
 #include <Wire.h>
 int cont=0; //variable de conteo 
 void setup() {
 Wire.begin(); //inicio de comunicación i2c
+Serial.begin(9600);
 }
 
 void loop() {
@@ -20,23 +25,24 @@ void loop() {
  Wire.beginTransmission(4); // configuración de esclavo a enviar
  Wire.write(cont);  // envio de mensaje
  Wire.endTransmission(); // fin de comunicación
- delay(2000); // espera
+ delay(1000); // espera
+
+ Wire.requestFrom(4, 2); 
+ while(Wire.available()){
+  Serial.println("mesaje recibido");
+    char c = Wire.read();
+  Serial.println(c);
+ }
+Serial.println();
+ delay(1000);
 }
 ///////////////////////////////ESCLAVO////////////////////////////////////////////
-/* 
- *  
- * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN
- * CÓDIGO 12: Recepción y envío de mensajes por comunicación I2C   
- * OBJETIVO: Enviar mensajes desde un master hacia un esclavo
- *  Funciones:  Wire.onReceive(handler); // Registra una función de callback al recibir un dato
- *              Wire.onRequest(handler); // Registra una función de callback al solicitar un dato
-*/
-
 #include <Wire.h>
 void setup()
 {
   Wire.begin(4);     // id de esclavo           
   Wire.onReceive(receiveEvent);  //evento de recepción de mensajes
+  Wire.onRequest(requestEvent);
   Serial.begin(9600);   // comunicación serial        
 }
 
@@ -47,7 +53,12 @@ delay(100);
 void receiveEvent(int bytes){ // evento i2c
   while(Wire.available())  // si existe mensaje por leer
   {
+    Serial.println("mensaje recibido");
     int c = Wire.read();  // recibe dato
     Serial.print(c);    //envia por comunicación serial 
   }
+}
+// function that executes whenever data is requested from master
+void requestEvent() {
+ Wire.write("Hi");  /*send string on request */
 }
