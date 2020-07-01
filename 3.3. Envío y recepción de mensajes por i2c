@@ -1,1 +1,53 @@
+/* 
+ *  
+ * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN
+ * CÓDIGO 12: Recepción y envío de mensajes por comunicación I2C   
+ * OBJETIVO: Enviar mensajes desde un master hacia un esclavo
+ *  Funciones:   Wire.begin()  // Inicializa el hardware del bus
+ *               Wire.beginTransmission(address); //Comienza la transmisión
+ *               Wire.endTransmission(); // Finaliza la transmisión
+ *               Wire.requestFrom(address,nBytes);  //solicita un numero de bytes al esclavo en la dirección address
+*/
+///////////////////////////////MASTER///////////////////////////////////////////
+#include <Wire.h>
+int cont=0; //variable de conteo 
+void setup() {
+Wire.begin(); //inicio de comunicación i2c
+}
 
+void loop() {
+ cont++; //incremento de variable
+ Wire.beginTransmission(4); // configuración de esclavo a enviar
+ Wire.write(cont);  // envio de mensaje
+ Wire.endTransmission(); // fin de comunicación
+ delay(2000); // espera
+}
+///////////////////////////////ESCLAVO////////////////////////////////////////////
+/* 
+ *  
+ * CAPÍTULO III: MÓDULOS DE COMUNICACIÓN
+ * CÓDIGO 12: Recepción y envío de mensajes por comunicación I2C   
+ * OBJETIVO: Enviar mensajes desde un master hacia un esclavo
+ *  Funciones:  Wire.onReceive(handler); // Registra una función de callback al recibir un dato
+ *              Wire.onRequest(handler); // Registra una función de callback al solicitar un dato
+*/
+
+#include <Wire.h>
+void setup()
+{
+  Wire.begin(4);     // id de esclavo           
+  Wire.onReceive(receiveEvent);  //evento de recepción de mensajes
+  Serial.begin(9600);   // comunicación serial        
+}
+
+void loop()
+{
+delay(100);
+}
+void receiveEvent(int bytes){ // evento i2c
+  while(Wire.available())  // si existe mensaje por leer
+  {
+    int c = Wire.read();  // recibe dato
+    Serial.print(c);    //envia por comunicación serial 
+  }
+}
