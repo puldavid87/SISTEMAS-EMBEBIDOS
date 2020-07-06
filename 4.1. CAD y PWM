@@ -1,1 +1,43 @@
 
+ /*
+ * CAPÍTULO IV: PERIFÉRICOS ESPECIALES
+ * CÓDIGO 14: CAD Y PWM
+ * OBJETIVO: Realizar lecturas del converso análogo digital para
+ *           determinar la velocidad de un motor en DC
+ * FUNCIONES: analogRead(conversor)
+ *                        conversor-> A0-A5
+ *            analogWrite(pin, dutty)                    
+ *                        pin-> pines con ~ , dutty->0-255
+ *                 
+ */
+
+ #include<LiquidCrystal.h>
+
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8);  // selección de pines para LCD
+int conversor; // variable para adquidir datos del conversor entre 0-1023
+float voltaje; // variable de conversión de conversor a voltaje
+int dutty;   // variable para uso de pwm
+void setup() {
+  lcd.begin(16, 2);   // inicializa la LCD
+}
+
+void loop(){
+  conversor=analogRead(0); //lectura de canal 0
+  voltaje=(conversor*5.0)/1023.0;// conversión a voltaje 
+  dutty=conversor/4; // cambio de escala para dutty cicle
+  analogWrite(6,dutty); // envío de valor a pin
+  lcd.setCursor(0,0); // selección de ubicación en LCD
+  lcd.print("CAD:");  // Impresión de datos en LCD
+  lcd.setCursor(7,0); // selección de ubicación en LCD
+ lcd.print(conversor); // Impresión de datos en LCD
+  lcd.setCursor(0,1); // selección de ubicación en LCD
+  lcd.print("V:");    // Impresión de datos en LCD
+  lcd.setCursor(3,1); // selección de ubicación en LCD
+ lcd.print(voltaje,2); // Impresión de datos en LCD
+  lcd.setCursor(8,1); // selección de ubicación en LCD
+  lcd.print("PWM:"); // Impresión de datos en LCD
+  lcd.setCursor(12,1); // selección de ubicación en LCD
+  lcd.print((dutty*100)/255); // Impresión de datos en LCD
+  delay(300); // tiempo de espera para siguiente lectura
+  lcd.clear(); // borrar LCD
+}
