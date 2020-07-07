@@ -1,67 +1,65 @@
-
- /*
- * CAPÍTULO IV: PERIFÉRICOS ESPECIALES
- * CÓDIGO 16: INTERRUPCIONES
- * OBJETIVO: Manejo de interrupciones 0 y 1 en arduino Uno
- * FUNCIONES: attachInterrupt(interrupt,ISR,modo)
- *              Interrupt: el número de la interrupción
- *              ISR: Subrutina a llamar
- *              Modo: Definir el modo de trabajo
- *                     ->LOW LEVEL
- *                     ->CHANGE
- *                     ->RISING
- *                      ->FALLING
- *             No se puede usar la función de delay         
+/*
+ * CAPÍTULO IV: PERIFÉRICOS ESPECIALES- INTERRUPCIONES
+ * CÓDIGO 16: MANEJO DE INTERRUPCIONES
+ * OBJETIVO: Se va activar un juego de luces led por medio de la interrupción 0 y la selección
+ *           del número de veces a jugar se realizará con la interrupción 1.
+ *           interrupt 0: Inicio del sistema e ingreso de veces de juego.
+ *                       Inicio de juego.
+ *                       Fin de juego.
+ *           interrupt 1: Contador             
+ *FUNCIONES: attachtInterrupt(interrupt, rutina, modo)           
  */
 
-const int leds[6]={13,12,11,10,9,8};
-int on=0;
-int cont=0;
-int i; 
-int j=0;
+ const int leds [6]={13,12,11,10,9,8};
+ int on=0; // int0
+ int cont; // int1
+ int i; //variables de conteo
+ int j=0;  //variables de conteo
+
 void setup(){
-  attachInterrupt(0,activacion,LOW);
-  attachInterrupt(1, contador, LOW);
-  Serial.begin(9600);
-  for(i=0;i<6;i++){
-    pinMode(leds[i],OUTPUT);
-    }
-   i=0; 
+  for(i=0;i<6;i++){ // configuración de leds
+      pinMode(leds[i],OUTPUT);
+    }  
+   i=0;
+   Serial.begin(9600); //activación de cx serial
+   attachInterrupt(0,activacion,LOW); // interrupt 0 habilitada
+   attachInterrupt(1,contador,LOW);  // interrupt 1 habilitada
 }
+
 void loop(){
-  for(;i<cont;i++){
-    for(j=0;j<6;j++){
-      digitalWrite(leds[j],HIGH);
-      delay(300);
-      digitalWrite(leds[j],LOW);
-      delay(300);
-      }
-    }
- }
-
-void activacion(){
-   switch(on){
-    case 0:
-      Serial.println("Inicio de sistema");
-      Serial.println("Ingrese numero de veces a jugar");
-      on++;
-    break;
-    case 1:
-      Serial.println("Inicio de juego");
-      on++;
-    break;
-    case 2:
-      Serial.println("Fin de Juego");
-      cont=0;
-      on=0;
-      i=0;
-    break;
+  if(on==2){ // condición de juego
+      for(;i<cont;i++){ // límite de juego
+          for(j=0;j<6;j++){ // ciclo de luces
+              digitalWrite(leds[j],HIGH);
+              delay(200);
+              digitalWrite(leds[j],LOW);
+              delay(200);
+            }
+        }
     }
 }
-
+void activacion (){
+  switch(on){ // opciones de boton 
+      case 0:
+        Serial.println("Inicio de Sistema");
+        Serial.println("Ingrese el numero de veces a jugar");
+        on++;
+      break;
+      case 1:
+        Serial.println("Inicio de Juego");
+        on++;
+      break;
+      case 2:
+        Serial.println("Fin de juego");
+        cont=0;
+        on=0;
+        i=0;
+      break;
+    }
+}
 void contador(){
-  if(on==1){
+  if(on==1){ // restricción de juego
       cont++;
-      Serial.println(String("Juega ")+String(cont)+String("veces"));
+      Serial.println(String("Juega" )+String(cont)+String(" veces"));
     }
 }
