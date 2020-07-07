@@ -1,1 +1,67 @@
 
+ /*
+ * CAPÍTULO IV: PERIFÉRICOS ESPECIALES
+ * CÓDIGO 16: INTERRUPCIONES
+ * OBJETIVO: Manejo de interrupciones 0 y 1 en arduino Uno
+ * FUNCIONES: attachInterrupt(interrupt,ISR,modo)
+ *              Interrupt: el número de la interrupción
+ *              ISR: Subrutina a llamar
+ *              Modo: Definir el modo de trabajo
+ *                     ->LOW LEVEL
+ *                     ->CHANGE
+ *                     ->RISING
+ *                      ->FALLING
+ *             No se puede usar la función de delay         
+ */
+
+const int leds[6]={13,12,11,10,9,8};
+int on=0;
+int cont=0;
+int i; 
+int j=0;
+void setup(){
+  attachInterrupt(0,activacion,LOW);
+  attachInterrupt(1, contador, LOW);
+  Serial.begin(9600);
+  for(i=0;i<6;i++){
+    pinMode(leds[i],OUTPUT);
+    }
+   i=0; 
+}
+void loop(){
+  for(;i<cont;i++){
+    for(j=0;j<6;j++){
+      digitalWrite(leds[j],HIGH);
+      delay(300);
+      digitalWrite(leds[j],LOW);
+      delay(300);
+      }
+    }
+ }
+
+void activacion(){
+   switch(on){
+    case 0:
+      Serial.println("Inicio de sistema");
+      Serial.println("Ingrese numero de veces a jugar");
+      on++;
+    break;
+    case 1:
+      Serial.println("Inicio de juego");
+      on++;
+    break;
+    case 2:
+      Serial.println("Fin de Juego");
+      cont=0;
+      on=0;
+      i=0;
+    break;
+    }
+}
+
+void contador(){
+  if(on==1){
+      cont++;
+      Serial.println(String("Juega ")+String(cont)+String("veces"));
+    }
+}
