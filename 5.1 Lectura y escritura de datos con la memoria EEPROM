@@ -34,7 +34,7 @@ void loop() {
     lcd.setCursor(0,0); // ubicación en LCD
     lcd.print(String("memoria: ")+String(valor_cad)); // imprime datos
     lcd.setCursor(0,1); //ubicación en LCD
-    lcd.print(String("cad: ")+String(analogRead(0))); // imprime datos
+    lcd.print(String("cad: ")+String(analogRead(0)/4)); // imprime datos
     delay(300); // espera
     lcd.clear(); // borra LCD
 }
