@@ -1,1 +1,40 @@
 
+/*
+ * CAPÍTULO V: FUNCIONES ESPECÍFICAS
+ * CÓDIGO 19: Lectura y escritura de datos en la memoria EEPROM
+ * OBJETIVO: Almacenar un valor del conversor análogo digital si se encuentra fuera un de un rango establecido
+ *  
+ * FUNCIONES: EEPROM.write() 
+ *            EEPROM.read()
+ *            EEPROM.update()
+ */
+#include<EEPROM.h>
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd (13,12,11,10,9,8);
+
+int i=0; // ubicación de la memoria
+int valor_cad; // variable para la conversión
+int val_max; // valor máximo de rango
+int val_min; // valor mínimo de rango
+
+void setup() {
+lcd.begin(16,2);
+valor_cad=EEPROM.read(0);
+val_max=valor_cad+5; //rango de error
+val_min=valor_cad-5; //rango de error.
+}
+void loop() {
+  if(analogRead(0)>val_max||analogRead(0)<val_min){ // condicion de salida de rango
+      valor_cad=analogRead(0); // actualizar valor en variable
+      EEPROM.write(0,valor_cad); // escribe dato en la memoria
+      val_max=valor_cad+5; // rango max de error
+      val_min=valor_cad-5; // rango min de error
+    }
+    lcd.setCursor(0,0); // ubicación en LCD
+    lcd.print(String("memoria: ")+String(valor_cad)); // imprime datos
+    lcd.setCursor(0,1); //ubicación en LCD
+    lcd.print(String("cad: ")+String(analogRead(0))); // imprime datos
+    delay(300); // espera
+    lcd.clear(); // borra LCD
+}
