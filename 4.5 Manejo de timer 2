@@ -1,1 +1,51 @@
 
+/*
+ * CAPÍTULO 4: PERIFÉRICOS 
+ * CÓDIGO 18: USO DE TIMER 1
+ * OBJETIVO: MANEJE DE LUCES LED EN DIFERNTES TIEMPO CONTROLADOR POR EL TIMER 1
+ * FUNCIONES: 
+ *           MsTimer2::set(1000, flash); // 1s period
+ *           MsTimer2::start();
+ *           MsTimer2::stop();
+ *             
+ */
+#include <MsTimer2.h> //  librería timer 2
+#include <LiquidCrystal.h> // librería LCD
+
+LiquidCrystal lcd (13,12,11,10,9,8); // objeto para librería de LCD
+
+int segundos=0; // Variable de seg
+int minutos=0; // Variable de min
+int horas =0; // Variable de hors
+
+void setup(){
+ lcd.begin(16,2); // incia la LCD
+ MsTimer2::set(1000, reloj); // configura timer 2 a un segundo
+ MsTimer2::start(); // inicia el timer 2
+}
+void loop(){
+}
+void reloj(){
+  if(segundos<60){ // condición de seg
+     segundos++; // incrementa variable
+    }
+   else{
+      segundos=0;
+      if(minutos<60){ // condición de min
+         minutos++; // incrementa variable
+        }
+       else{
+        minutos=0;
+        if(horas<24){ // condición de horas
+          horas++; // incrementa variable
+          }
+          else{
+            horas=0;
+            }
+        } 
+    }
+    lcd.clear(); // borra anterior mensaje
+    lcd.setCursor(0,0); // ubicación en LCD
+    //mensaje
+    lcd.print(String(horas)+String(":")+String(minutos)+String(":")+String(segundos)); 
+ }
