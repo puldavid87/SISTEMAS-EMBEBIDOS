@@ -1,6 +1,6 @@
 /*
  * UNIDAD V: FUNCIONES ESPECÍFICAS
- * CÓDIGO 24 : MANEJO DE MODOS POWER SAVE
+ * CÓDIGO 26 : MANEJO DE MODOS POWER SAVE
  * OBJETIVO: Realizar lecturas del conversor análogo digital y luego apagarlo por el tiempo establecido por el usuario
  * funciones:
  *        power_xx_disable():  Deshabilita el modo
