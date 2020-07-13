@@ -1,1 +1,29 @@
 
+/*
+ * CAPÍTULO V: FUNCIONES ESPECÍFICAS
+ * CÓDIGO 21: Rutina de reinicio del sistema
+ * OBJETIVO: Reiniciar el sistema en un determinado tiempo por medio del perro guardián y memoria EEPROM
+ *             
+ */
+
+#include<avr/wdt.h>  // librería wdt
+#include<EEPROM.h>   // librería EEPROM
+int i;               // Variable de conteo en programa principal
+void setup(){
+  Serial.begin(9600);  // inicio de cx serial
+  Serial.println("DESPIERTO");   // mensaje desde setup
+  attachInterrupt(0,activacion,LOW); // interrupción 
+  i=EEPROM.read(0);  // lectura de dato desde EEPROM
+}
+void loop(){
+  Serial.println(i++); // aumento de valor en variable
+  if(i<255){ // condición máxima de incremento
+        EEPROM.write(0,i); // almacenamiento en EEPROM
+    }
+   else 
+    i=0; // reinicia variable 
+  delay(300); // espera de 300 ms
+}
+void activacion(){
+    wdt_disable(); // deshabilita el wdt
+    wdt_enable(WDTO_4S); // reiniciar en 4 segundos
