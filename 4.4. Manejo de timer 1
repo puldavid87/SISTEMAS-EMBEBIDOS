@@ -1,1 +1,59 @@
 
+/*
+ * CAPÍTULO 4: PERIFÉRICOS 
+ * CÓDIGO 17: USO DE TIMER 1
+ * OBJETIVO: MANEJE DE LUCES LED EN DIFERNTES TIEMPO CONTROLADOR POR EL TIMER 1
+ * FUNCIONES: 
+ *            Timer1.initialize(1000000);
+ *            1 segundo según prescaler y reloj
+ *            Timer1.pwm(pin,dutty);
+ *            Pin 9 o 10, dutty entre 0 y 1023
+ *            Timer1.attachInterrupt(subrutina);
+ *            void subrutina (){
+ *            }
+ *             
+ */
+
+#include <TimerOne.h>
+const int led1=8; // led en pin 8
+const int led2=9; // led en pin 8
+const int led3=10; // led en pin 8
+int cont=0;
+
+void setup(){
+ Serial.begin(9600); // cx serial
+ Timer1.initialize(1000000); // configuración de timer a 1 seg
+ Timer1.attachInterrupt(subrutina); // interrupción de timer
+ pinMode(led1,OUTPUT);
+ pinMode(led2,OUTPUT);
+ pinMode(led3,OUTPUT);
+}
+
+void loop(){
+  Serial.println("PROGRAMA PRINCIPAL"); // simulación de programa principal
+  delay(300);  
+}
+void subrutina(){
+ cont++; // variable que se incrementa cada segundo 
+ switch(cont){
+    case 8: //enciende led 1 en 8s
+      digitalWrite(led1,HIGH);
+    break;
+    case 10: //enciende led 2 en 10s
+      digitalWrite(led2,HIGH);
+    break;
+    case 12: //apaga led 2 en 12s
+      digitalWrite(led2,LOW);
+    break;
+    case 15: //enciende led 3 en 15s
+      digitalWrite(led3,HIGH);
+    break;
+    case 18: //apaga led 2 en 18s
+      digitalWrite(led1,LOW);
+    break;
+    case 22: //apaga led 2 en 22s
+      digitalWrite(led3,LOW);
+      cont=0; //reinicia el contador
+    break;
+  }
+ }
