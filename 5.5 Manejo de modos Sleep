@@ -1,6 +1,6 @@
 /*
  * UNIDAD V: FUNCIONES ESPECÍFICAS
- * CÓDIGO 24 : MANEJO DE MODOS SLEEP
+ * CÓDIGO 23 : MANEJO DE MODOS SLEEP
  * OBJETIVO: Realizar un control de modos sleep por medio de interrupciones por software y hardware
  * MODOS SLEEP Y DE AHORRO DE BATERÍA
  *  Consumo es de 100-500 mA.
