@@ -1,1 +1,33 @@
 
+/*
+ * CAPÍTULO V: FUNCIONES ESPECÍFICAS
+ * CÓDIGO 20: Funciones de put y get con EEPROM
+ * OBJETIVO: Aplicación de get y put en un contador cada dos segundos
+ *  
+ * FUNCIONES: EEPROM.put(dir, valor)
+ *            Dir: Dirección de memoria 0-1023
+ *            Valor: Valor a escribir
+ *            EEPROM.get()
+ *            EEPROM.get(dir, valor)
+ *            Dir: Dirección de memoria 0-1023
+ *            Valor: nombre de variable para guardar el dato
+ *            
+ */
+#include<EEPROM.h> // librería EEPROM
+
+int var=0; // variable de conteo
+void setup(){ 
+  Serial.begin(9600);  // cx serial
+  EEPROM.get(0,var); // lee el dato en la EEPROM en la variable var
+  Serial.println(String("valor: ")+String(var));   // imprime valor
+ }
+
+void loop(){
+  var++; // incremento de variable
+  if(var<255) // condición 
+     EEPROM.put(0,var); // actualiza valor
+   else
+   var=0;// reinicia variable
+   Serial.println(String("valor: ")+String(var)); // imprime por seial
+ delay(2000);   
+}
