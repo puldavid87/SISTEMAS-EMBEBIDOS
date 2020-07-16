@@ -1,0 +1,85 @@
+#include <Arduino_FreeRTOS.h>
+
+#define RED    8
+#define YELLOW 7
+#define BLUE   6
+
+typedef int TaskProfiler;
+
+TaskProfiler  RedLEDProfiler;
+TaskProfiler  YellowLEDProfiler;
+TaskProfiler  BlueLEDProfiler;
+TaskHandle_t  red_Handle,blue_Handle,yellow_Handle;
+int blueTaskPrio;
+int monitor_suspend;
+void setup()
+{
+  Serial.begin(9600);
+  xTaskCreate(redLedControllerTask,
+              "Red LED Task",
+              100,
+              NULL,
+              1,
+              &red_Handle
+              );
+ xTaskCreate(blueLedControllerTask,
+             "Blue LED Task",
+             100,
+             NULL,
+             1,
+             &blue_Handle);
+ xTaskCreate(yellowLedControllerTask,
+             "Yellow LED Task",
+             100,
+             NULL,
+             1,
+             &yellow_Handle);
+}
+
+void redLedControllerTask(void *pvParameters)
+{
+  pinMode(RED,OUTPUT);
+
+  while(1)
+  {
+   
+    digitalWrite(RED,digitalRead(RED)^1);
+    vTaskDelay(50);
+  }
+}
+
+void blueLedControllerTask(void *pvParameters)
+{
+    pinMode(BLUE,OUTPUT);
+    while(1)
+    {
+
+     digitalWrite(BLUE,digitalRead(BLUE)^1);
+     vTaskDelay(50);
+    }
+}
+
+void yellowLedControllerTask(void *pvParameters)
+{
+   pinMode(YELLOW,OUTPUT);
+  while(1)
+  {
+    monitor_suspend++;
+  blueTaskPrio=uxTaskPriorityGet(blue_Handle);
+  Serial.print(blueTaskPrio);
+ if(monitor_suspend==10){
+   vTaskSuspend(red_Handle);
+  }
+    
+     if(monitor_suspend==30){
+      vTaskResume(red_Handle);
+      monitor_suspend=0;
+      }
+     
+   digitalWrite(YELLOW,digitalRead(YELLOW)^1);
+   vTaskDelay(50);
+  }
+}
+
+void loop()
+{}
