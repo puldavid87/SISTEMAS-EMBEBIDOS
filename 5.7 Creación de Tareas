@@ -41,7 +41,10 @@ void redLedControllerTask(void *pvParameters)
 
   while(1)
   {
-    Serial.print("This is RED");
+    //Serial.print("This is RED");
+     RedLEDProfiler++;
+   Serial.print("R TASK: ");
+   Serial.println(RedLEDProfiler);
     digitalWrite(RED,digitalRead(RED)^1);
   }
 }
@@ -51,7 +54,10 @@ void blueLedControllerTask(void *pvParameters)
     pinMode(BLUE,OUTPUT);
     while(1)
     {
-     Serial.print("This is BLUE");
+    // Serial.print("This is BLUE");
+    BlueLEDProfiler++;
+   Serial.print("B TASK: ");
+   Serial.println(BlueLEDProfiler);
      digitalWrite(BLUE,digitalRead(BLUE)^1);
     }
 }
@@ -61,7 +67,11 @@ void yellowLedControllerTask(void *pvParameters)
    pinMode(YELLOW,OUTPUT);
   while(1)
   {
-   Serial.print("This is YELLOW");
+  
+   // Serial.print("This is YELLOW");
+    YellowLEDProfiler++;
+   Serial.print("TASK: ");
+   Serial.println(YellowLEDProfiler);
    digitalWrite(YELLOW,digitalRead(YELLOW)^1);
   }
 }
