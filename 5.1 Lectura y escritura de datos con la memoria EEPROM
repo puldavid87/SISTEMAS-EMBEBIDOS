@@ -4,9 +4,12 @@
  * CÓDIGO 19: Lectura y escritura de datos en la memoria EEPROM
  * OBJETIVO: Almacenar un valor del conversor análogo digital si se encuentra fuera un de un rango establecido
  *  
- * FUNCIONES: EEPROM.write() 
- *            EEPROM.read()
- *            EEPROM.update()
+ * FUNCIONES: 
+ *        EEPROM.write(dir,valor)
+ *        EEPROM.read(dir)
+ *        EEPROM.update(dir,valor)
+ *        dir -> 0,1203
+ *        valor -> 8 bits 
  */
 #include<EEPROM.h>
 #include <LiquidCrystal.h>
