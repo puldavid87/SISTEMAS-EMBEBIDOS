@@ -2,7 +2,7 @@
 /*
  * CAPÍTULO 4: PERIFÉRICOS 
  * CÓDIGO 18: USO DE TIMER 1
- * OBJETIVO: MANEJE DE LUCES LED EN DIFERNTES TIEMPO CONTROLADOR POR EL TIMER 1
+ * OBJETIVO: RELOJ CON TIMER 2
  * FUNCIONES: 
  *           MsTimer2::set(1000, flash); // 1s period
  *           MsTimer2::start();
