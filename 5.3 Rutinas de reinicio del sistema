@@ -27,3 +27,4 @@ void loop(){
 void activacion(){
     wdt_disable(); // deshabilita el wdt
     wdt_enable(WDTO_4S); // reiniciar en 4 segundos
+}
