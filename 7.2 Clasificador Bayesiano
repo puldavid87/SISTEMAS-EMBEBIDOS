@@ -1,3 +1,9 @@
+/*
+ * CAPÍTULO 7: APRENDIZAJE DE MÁQUINA
+ * PROGRAMA 30: Clasificador Bayesiano
+ * OBJETIVO: Realizar un clasificador por medio de probabildiades
+ */
+
 #include "matriz_entrenamiento.h"
 #include "ListLib.h"
   // Crear una nueva lista
